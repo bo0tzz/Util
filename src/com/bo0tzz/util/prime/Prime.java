@@ -8,24 +8,28 @@ import java.util.List;
  * Created by bo0tzz
  */
 public class Prime {
-    private static HashMap<Integer,Boolean> N;
+    private static HashMap<Long,Boolean> N;
 
-    public static List<Integer> getPrimes(int cap) {
-        N = new HashMap<Integer,Boolean>(cap);
-        List<Integer> output = new ArrayList<>();
-        for (int i = 1; i <= cap; i++) {
+    public static List<Long> getPrimes(int cap) {
+        return getPrimes((long)cap);
+    }
+
+    public static List<Long> getPrimes(long cap) {
+        N = new HashMap<Long,Boolean>();
+        List<Long> output = new ArrayList<>();
+        for (long i = 1; i <= cap; i++) {
             N.put(i, false);
         }
 
-        int p = 2;
+        long p = 2;
         wh: while (true) {
-            int temp = p;
-            for (int i = 2; temp < cap; i++) {
+            long temp = p;
+            for (long i = 2; temp < cap; i++) {
                 temp = p * i;
                 N.replace(temp, true);
             }
 
-            for (int i = p+1; i <= cap; i++) {
+            for (long i = p+1; i <= cap; i++) {
                 if (!N.get(i)) {
                     p = i;
                     break;
@@ -35,8 +39,8 @@ public class Prime {
             }
         }
 
-        int size = N.size();
-        for (int i = 1; i <= size; i++) {
+        long size = N.size();
+        for (long i = 1; i <= size; i++) {
             if (N.get(i)) {
                 N.remove(i);
             }
@@ -44,5 +48,22 @@ public class Prime {
 
         N.forEach((x, y) -> output.add(x));
         return output;
+    }
+
+    public static List<Long> factorize(long base) {
+        List<Long> factors = new ArrayList<>();
+        List<Long> primes = getPrimes(Math.round(Math.sqrt(base)));
+        primes.remove(0);
+
+        while (base > 1) {
+            for (Long i : primes) {
+                if (base % i == 0) {
+                    base /= i;
+                    factors.add(i);
+                }
+            }
+        }
+
+        return factors;
     }
 }
