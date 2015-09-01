@@ -18,7 +18,6 @@ public class Prime {
         }
 
         int p = 2;
-        int ayy = 0;
         wh: while (true) {
             int temp = p;
             for (int i = 2; temp < cap; i++) {
